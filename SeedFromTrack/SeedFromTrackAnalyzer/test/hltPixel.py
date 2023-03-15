@@ -11673,50 +11673,6 @@ process.hltElectronSeedFromPixelTracks = cms.EDProducer( "SeedGeneratorFromProto
 # Updated the initial seeds
 
 process.hltEgammaElectronPixelSeeds = cms.EDProducer( "ElectronNHitSeedProducer",
-    initialSeeds = cms.InputTag( "hltElePixelSeedsCombined" ),
-    vertices = cms.InputTag( "" ),
-    beamSpot = cms.InputTag( "hltOnlineBeamSpot" ),
-    measTkEvt = cms.InputTag( "hltSiStripClusters" ),
-    superClusters = cms.VInputTag( 'hltEgammaSuperClustersToPixelMatch' ),
-    matcherConfig = cms.PSet(
-      useRecoVertex = cms.bool( False ),
-      minNrHits = cms.vuint32( 2, 3 ),
-      matchingCuts = cms.VPSet(
-        cms.PSet(  dPhiMaxHighEt = cms.vdouble( 0.05 ),
-          version = cms.int32( 2 ),
-          dRZMaxHighEt = cms.vdouble( 9999.0 ),
-          dRZMaxLowEtGrad = cms.vdouble( 0.0 ),
-          dPhiMaxLowEtGrad = cms.vdouble( -0.002 ),
-          dPhiMaxHighEtThres = cms.vdouble( 20.0 ),
-          dRZMaxHighEtThres = cms.vdouble( 0.0 )
-        ),
-	cms.PSet(  etaBins = cms.vdouble(  ),
-          dPhiMaxHighEt = cms.vdouble( 0.003 ),
-          version = cms.int32( 2 ),
-          dRZMaxHighEt = cms.vdouble( 0.05 ),
-          dRZMaxLowEtGrad = cms.vdouble( -0.002 ),
-          dPhiMaxLowEtGrad = cms.vdouble( 0.0 ),
-          dPhiMaxHighEtThres = cms.vdouble( 0.0 ),
-          dRZMaxHighEtThres = cms.vdouble( 30.0 )
-        ),
-	cms.PSet(  etaBins = cms.vdouble(  ),
-          dPhiMaxHighEt = cms.vdouble( 0.003 ),
-          version = cms.int32( 2 ),
-          dRZMaxHighEt = cms.vdouble( 0.05 ),
-          dRZMaxLowEtGrad = cms.vdouble( -0.002 ),
-          dPhiMaxLowEtGrad = cms.vdouble( 0.0 ),
-          dPhiMaxHighEtThres = cms.vdouble( 0.0 ),
-          dRZMaxHighEtThres = cms.vdouble( 30.0 )
-        )
-      ),
-      minNrHitsValidLayerBins = cms.vint32( 4 ),
-      detLayerGeom = cms.ESInputTag( "","hltESPGlobalDetLayerGeometry" ),
-      navSchool = cms.ESInputTag( "","SimpleNavigationSchool" ),
-      paramMagField = cms.ESInputTag( "","ParabolicMf" )
-    )
-)
-
-process.hltEgammaElectronPixelSeedsPatatrack = cms.EDProducer( "ElectronNHitSeedProducer",
     initialSeeds = cms.InputTag( "hltElectronSeedFromPixelTracks" ),
     vertices = cms.InputTag( "" ),
     beamSpot = cms.InputTag( "hltOnlineBeamSpot" ),
@@ -79741,11 +79697,8 @@ process.options.numberOfConcurrentLuminosityBlocks = 1
 
 process.HLTRecoPixelTracksSequence = cms.Sequence( process.HLTRecoPixelTracksTask )
 process.HLTRecopixelvertexingSequence = cms.Sequence( process.hltPixelTracksFitter + process.hltPixelTracksFilter,process.HLTRecopixelvertexingTask )
-#process.HLTRecoPixelTracksSequence = cms.Sequence( process.hltPixelTracksFilter + process.hltPixelTracksFitter + process.hltPixelTracksTrackingRegions + process.hltPixelLayerQuadruplets + process.hltPixelTracksHitDoublets + process.hltPixelTracksHitQuadruplets + process.hltPixelTracks )
-#process.HLTRecopixelvertexingSequence = cms.Sequence( process.HLTRecoPixelTracksSequence + process.hltPixelVertices + process.hltTrimmedPixelVertices )
 
-#process.HLTElePixelMatchSequence = cms.Sequence( process.HLTDoLocalPixelSequence + process.HLTDoLocalStripSequence + process.hltPixelLayerPairs + process.hltPixelLayerTriplets + process.hltEgammaHoverE + process.hltEgammaSuperClustersToPixelMatch + process.hltEleSeedsTrackingRegions + process.hltElePixelHitDoublets + process.hltElePixelHitDoubletsForTriplets + process.hltElePixelHitTriplets + process.hltElePixelSeedsDoublets + process.hltElePixelSeedsTriplets + process.hltElePixelSeedsCombined + process.hltEgammaElectronPixelSeeds + process.hltEgammaPixelMatchVars )
-process.HLTElePixelMatchSequence = cms.Sequence( process.HLTDoLocalPixelSequence + process.HLTRecopixelvertexingSequence + process.HLTDoLocalStripSequence + process.hltPixelLayerPairs + process.hltPixelLayerTriplets + process.hltEgammaHoverE + process.hltEgammaSuperClustersToPixelMatch + process.hltEleSeedsTrackingRegions + process.hltPixelTrackSelected + process.hltElectronSeedFromPixelTracks + process.hltEgammaElectronPixelSeedsPatatrack + process.hltEgammaPixelMatchVars )
+process.HLTElePixelMatchSequence = cms.Sequence( process.HLTDoLocalPixelSequence + process.HLTRecopixelvertexingSequence + process.HLTDoLocalStripSequence + process.hltPixelLayerPairs + process.hltPixelLayerTriplets + process.hltEgammaHoverE + process.hltEgammaSuperClustersToPixelMatch + process.hltEleSeedsTrackingRegions + process.hltPixelTrackSelected + process.hltElectronSeedFromPixelTracks + process.hltEgammaElectronPixelSeeds + process.hltEgammaPixelMatchVars )
 process.HLTGsfElectronSequence = cms.Sequence( process.hltEgammaCkfTrackCandidatesForGSF + process.hltEgammaGsfTracks + process.hltEgammaGsfElectrons + process.seedAnalyzerNew + process.hltEgammaGsfTrackVars )
 
 
